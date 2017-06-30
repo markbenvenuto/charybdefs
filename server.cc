@@ -250,7 +250,7 @@ class server_handler: public serverIf {
 
 void server_thread()
 {
-    int port = 9090;
+    int port = 9787;
 
     init_valid_methods();
 

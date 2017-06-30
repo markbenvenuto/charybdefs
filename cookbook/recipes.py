@@ -27,7 +27,7 @@ def usage():
 
 
 def connect():
-    transport = TSocket.TSocket('127.0.0.1', 9090)
+    transport = TSocket.TSocket('127.0.0.1', 9787)
     transport = TTransport.TBufferedTransport(transport)
     protocol = TBinaryProtocol.TBinaryProtocol(transport)
     client = server.Client(protocol)

@@ -301,6 +301,16 @@ int charybde_open(const char *path, struct fuse_file_info *fi)
         return ret;
     }
 
+
+    // Turn off O_DIRECT since fuse will give us unaligned buffers
+    // in read.
+    fi->flags &= ~(O_DIRECT);
+/*
+    if(fi->flags & O_DIRECT) {
+        return EINVAL;
+    }
+*/
+
     ret = open(path, fi->flags);
     if (ret < 0) {
         in_flight--;
@@ -814,6 +824,7 @@ int charybde_poll(const char *path, struct fuse_file_info *fi,
     return 0;    
 }
 
+// Does not support direct io
 int charybde_write_buf(const char *path, struct fuse_bufvec *buf, off_t off,
                       struct fuse_file_info *fi)
 {

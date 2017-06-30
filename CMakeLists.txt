@@ -7,6 +7,7 @@ set(CMAKE_CXX_FLAGS "-std=c++11 -D_FILE_OFFSET_BITS=64")
 set(CMAKE_C_FLAGS "-D_FILE_OFFSET_BITS=64")
 
 find_package(FUSE 2.9 REQUIRED)
+#link_directories(/opt/thrift/lib)
 
 add_library(charybde_lib charybde_ops.cc server.cc)
 
