@@ -1,0 +1,11 @@
+*.a
+CMakeFiles/
+CMakeCache.txt
+CMakeFiles
+cmake_intall.cmake
+
+.vscode/
+gen-cpp/
+cookbook/gen-py
+mongo/thrift-0.10.0
+mongo/thrift-0.10.0.tar.gz

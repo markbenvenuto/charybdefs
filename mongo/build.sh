@@ -1,7 +1,12 @@
 #!/bin/bash
-# This script downloads and imports boost via the boost bcp utility.
-# It can be run on Linux or Mac OS X.
-# Actual integration into the build system is not done by this script.
+# This script downloads thrift and builds charydefs.
+#
+# Assumes fuse-libs are installed.
+# On Ubunutu:
+#   sudo apt-get install fuse libfuse-dev 
+#
+# RHEL/Fedora
+#   dnf install fuse fuse-devel
 #
 # Turn on strict error checking, like perl use 'strict'
 set -euo pipefail
@@ -46,5 +51,3 @@ fi
 
 $CMAKE_COMMAND -DCMAKE_BUILD_TYPE=Debug
 make
-
-
