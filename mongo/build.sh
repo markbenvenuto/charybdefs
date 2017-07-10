@@ -39,6 +39,7 @@ popd
 
 cd ..
 
+export PATH=$THRIFT_PREFIX:$PATH
 export THRIFT_HOME=$THRIFT_PREFIX
 
 # Generate the thrift file first since the cmake script is imperfect
