@@ -78,7 +78,7 @@ def start(fuse_mount, backing_path, log_file):
     # TODO: remove the nohup file here
 
     cmd = ['nohup', '/bin/sh', 
-        '-c', '%s %s -omodules=subdir,subdir=%s,allow_other -f 2>&1 > %s' % 
+        '-c', '%s %s -omodules=subdir,subdir=%s,allow_other -f > %s 2>&1' % 
         (get_bin_path(), fuse_mount, backing_path, log_file)]
     logging.info("Starting server %s" % (cmd))
 
