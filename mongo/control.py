@@ -28,7 +28,10 @@ import os
 import subprocess
 import sys
 import time
+
 os.sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../cookbook/gen-py"))
+os.sys.path.append('/data/thrift/lib/python2.7/site-packages/')
+
 from typing import Any
 
 # Generated Thrift Proxy

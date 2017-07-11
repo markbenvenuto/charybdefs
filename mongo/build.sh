@@ -30,9 +30,12 @@ rm -rf thrif-$THRIFT_VERSION
 tar -zxf $THRIFT_TARBALL
 pushd thrift-$THRIFT_VERSION
 
-./configure --prefix=$THRIFT_PREFIX --without-python --without-ruby --without-go
-make
-make install
+
+cd /data
+
+git clone https://github.com/markbenvenuto/charybdefs.git
+PY_PREFIX=$THRIFT_PREFIX ./configure --prefix=$THRIFT_PREFIX --with-python --without-ruby --without-go
+make -j3 install
 popd
 
 # Now build ../charybdefs
@@ -51,4 +54,10 @@ if [ -f /opt/cmake/bin/cmake  ]; then
 fi
 
 $CMAKE_COMMAND -DCMAKE_BUILD_TYPE=Debug
+
 make
+
+# Generate the Python bindings
+pushd cookbook
+thrift -r --gen py ../server.thrift &> /dev/null
+popd
