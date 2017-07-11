@@ -30,10 +30,6 @@ rm -rf thrif-$THRIFT_VERSION
 tar -zxf $THRIFT_TARBALL
 pushd thrift-$THRIFT_VERSION
 
-
-cd /data
-
-git clone https://github.com/markbenvenuto/charybdefs.git
 PY_PREFIX=$THRIFT_PREFIX ./configure --prefix=$THRIFT_PREFIX --with-python --without-ruby --without-go
 make -j3 install
 popd
