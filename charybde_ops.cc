@@ -304,6 +304,7 @@ int charybde_open(const char *path, struct fuse_file_info *fi)
     // Turn off O_DIRECT since fuse will give us unaligned buffers
     // in read.
     fi->flags &= ~(O_DIRECT);
+    fi->flags &= ~(O_NOATIME);
 
     ret = open(path, fi->flags);
     if (ret < 0) {
@@ -676,6 +677,11 @@ int charybde_create(const char *path, mode_t mode,
         in_flight--;
         return ret;
     }
+
+    // Turn off O_DIRECT since fuse will give us unaligned buffers
+    // in read.
+    fi->flags &= ~(O_DIRECT);
+    fi->flags &= ~(O_NOATIME);
 
     ret = open(path, fi->flags, mode);
     if (ret < 0) {
