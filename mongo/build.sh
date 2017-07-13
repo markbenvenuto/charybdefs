@@ -23,7 +23,7 @@ THRIFT_VERSION=0.10.0
 THRIFT_TARBALL=thrift-$THRIFT_VERSION.tar.gz
 
 if [ ! -f $THRIFT_TARBALL ]; then
-    https://s3.amazonaws.com/boxes.10gen.com/build/thrift/$THRIFT_TARBALL
+    curl -O https://s3.amazonaws.com/boxes.10gen.com/build/thrift/$THRIFT_TARBALL
 fi
 
 rm -rf thrif-$THRIFT_VERSION
