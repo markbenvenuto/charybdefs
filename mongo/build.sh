@@ -30,7 +30,7 @@ rm -rf thrif-$THRIFT_VERSION
 tar -zxf $THRIFT_TARBALL
 pushd thrift-$THRIFT_VERSION
 
-PY_PREFIX=$THRIFT_PREFIX ./configure --prefix=$THRIFT_PREFIX --with-python --without-ruby --without-go
+PY_PREFIX=$THRIFT_PREFIX ./configure --prefix=$THRIFT_PREFIX --with-python --without-ruby --without-go --without-haskell
 make -j3 install
 popd
 
