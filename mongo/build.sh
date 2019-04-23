@@ -19,18 +19,31 @@ fi
 
 THRIFT_PREFIX=/data/thrift
 
-THRIFT_VERSION=0.10.0
+THRIFT_VERSION=0.12.0
 THRIFT_TARBALL=thrift-$THRIFT_VERSION.tar.gz
 
 if [ ! -f $THRIFT_TARBALL ]; then
-    curl -O https://s3.amazonaws.com/boxes.10gen.com/build/thrift/$THRIFT_TARBALL
+    curl -LO https://s3.amazonaws.com/boxes.10gen.com/build/thrift/$THRIFT_TARBALL
 fi
 
 rm -rf thrif-$THRIFT_VERSION
 tar -zxf $THRIFT_TARBALL
+
+patch -p0 < patches/thrift-0.12.0.patch
+
 pushd thrift-$THRIFT_VERSION
 
-PY_PREFIX=$THRIFT_PREFIX ./configure --prefix=$THRIFT_PREFIX --with-python --without-ruby --without-go --without-haskell
+./bootstrap.sh
+
+PY_PREFIX=$THRIFT_PREFIX ./configure \
+    --prefix=$THRIFT_PREFIX \
+    --with-python \
+    --without-ruby \
+    --without-go \
+    --without-haskell \
+    --without-dotnetcore \
+    --without-rs \
+    --without-nodejs
 make -j3 install
 popd
 

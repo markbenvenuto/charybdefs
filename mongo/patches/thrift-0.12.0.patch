@@ -1,0 +1,12 @@
+Make sure python3 support is installed
+diff -ur thrift-0.12.0/lib/py/Makefile.am thrift-0.12.0.new/lib/py/Makefile.am
+--- thrift-0.12.0/lib/py/Makefile.am	2018-12-18 20:24:34.000000000 -0500
++++ thrift-0.12.0.new/lib/py/Makefile.am	2019-04-22 16:49:44.160638800 -0400
+@@ -39,6 +39,7 @@
+ #$(PYTHON) setup.py install --prefix=$(prefix) --root=$(DESTDIR) $(PYTHON_SETUPUTIL_ARGS)
+ install-exec-hook:
+ 	$(PYTHON) setup.py install --root=$(DESTDIR) --prefix=$(PY_PREFIX) $(PYTHON_SETUPUTIL_ARGS)
++	$(PYTHON3) setup.py install --root=$(DESTDIR) --prefix=$(PY_PREFIX) $(PYTHON_SETUPUTIL_ARGS)
+ 
+ clean-local:
+ 	$(RM) -r build
