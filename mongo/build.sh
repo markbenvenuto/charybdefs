@@ -43,7 +43,10 @@ PY_PREFIX=$THRIFT_PREFIX ./configure \
     --without-haskell \
     --without-dotnetcore \
     --without-rs \
-    --without-nodejs
+    --without-c_glib \
+    --without-nodejs \
+    --without-nodets
+
 make -j3 install
 popd
 
