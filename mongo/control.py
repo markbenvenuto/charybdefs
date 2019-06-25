@@ -78,8 +78,8 @@ def start(fuse_mount, backing_path, log_file):
 
     # TODO: remove the nohup file here
 
-    cmd = ['nohup', '/bin/sh', 
-        '-c', '%s %s -omodules=subdir,subdir=%s,allow_other -f > %s 2>&1' % 
+    cmd = ['nohup', '/bin/sh',
+        '-c', '%s %s -omodules=subdir,subdir=%s,allow_other -f > %s 2>&1' %
         (get_bin_path(), fuse_mount, backing_path, log_file)]
     logging.info("Starting server %s" % (cmd))
 
@@ -100,7 +100,7 @@ def start(fuse_mount, backing_path, log_file):
         time.sleep(1)
 
         retry_count += 1
-    
+
     if not is_mounted:
         # TODO: cat the log files here
         raise ValueError("Could not find mounted file system at '%s'" % (fuse_mount))
@@ -115,13 +115,36 @@ def stop_all_args(args):
 def stop_all(fuse_mount):
     # type: (str) -> None
     """Stop all FUSE file systems"""
-    logging.info("Kill all processes name '%s'" % (CHARYBDEFS_BIN))
-    # Do not SIGKILL so we do not need to force umount later.
-    subprocess.call(['pkill', '--echo', CHARYBDEFS_BIN])
+    logging.info("Stopping fuse...");
+    retry_count = 10
+    while retry_count:
+        retry_count -= 1
 
-    # Ignore the return code as it may not be mounted
-    logging.info("Unmounting '%s'" % (fuse_mount))
-    subprocess.call(['umount', fuse_mount])
+        logging.info("Kill all processes name '%s'" % (CHARYBDEFS_BIN))
+        # Do not SIGKILL so we do not need to force umount later.
+        ret = subprocess.call(['pkill', '--echo', CHARYBDEFS_BIN])
+        if ret == 0:
+            # pkill killed something
+            logging.info("pkill succeeded, sleeping 1 sec")
+
+            time.sleep(1)
+        elif ret == 1:
+            # warng pkill failed to kill, maybe because nothing is left?
+            logging.info("Failed to kill charybdefs, retrying")
+
+
+        # Ignore the return code as it may not be mounted
+        logging.info("Unmounting '%s'" % (fuse_mount))
+        proc = subprocess.run(['umount', fuse_mount], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        print("stderr: %s" % (proc.stderr))
+        print("stdout: %s" % (proc.stdout))
+        if proc.returncode != 0 and "Operation not permitted" in proc.stderr.decode('utf-8'):
+            logging.info("Failed to unmount charybdefs, sleeping 1 sec, retrying")
+
+            time.sleep(1)
+        else:
+            break
+
 
 
 def get_log_args(args):
