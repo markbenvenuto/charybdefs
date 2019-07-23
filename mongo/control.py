@@ -142,6 +142,9 @@ def stop_all(fuse_mount):
             logging.info("Failed to unmount charybdefs, sleeping 1 sec, retrying")
 
             time.sleep(1)
+        elif proc.returncode != 0 and "Transport endpoint is not connected" in proc.stderr.decode('utf-8'):
+            logging.info("Ubuntu filesystem error, could not stop process")
+            subprocess.run(['cat', args.log_file])
         else:
             break
 
