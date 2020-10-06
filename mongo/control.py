@@ -134,10 +134,8 @@ def stop_all(fuse_mount):
 
         # Ignore the return code as it may not be mounted
         logging.info("Unmounting '%s'" % (fuse_mount))
-        proc = subprocess.run(['umount', fuse_mount], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        print("stderr: %s" % (proc.stderr))
-        print("stdout: %s" % (proc.stdout))
-        if proc.returncode != 0 and "Operation not permitted" in proc.stderr.decode('utf-8'):
+        ret_code = subprocess.call(['umount', fuse_mount])
+        if ret_code != 0:
             logging.info("Failed to unmount charybdefs, sleeping 1 sec, retrying")
 
             time.sleep(1)
